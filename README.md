@@ -1,5 +1,5 @@
-# Equipo 7
-## Tienda de Zapatos
+# Tienda de Zapatos
+## Equipo 7
 ### Ariadna Barboza
 ### Julio Muñoz
 ### Luis Xavier
