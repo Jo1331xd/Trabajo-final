@@ -12,8 +12,8 @@ class Inventario:
 
     def __str__(self):
         return (
-            f"Nombre: {self.name}\n"
-            f"Precio: ${self.price}\n"
+            f"Nombre: {self.nombre}\n"
+            f"Precio: ${self.precio}\n"
             f"Existencia: {self.stock} pares\n"
             f"Talla: {self.talla}\n"
             f"Género: {self.genero}\n"
