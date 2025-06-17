@@ -1,0 +1,2 @@
+nike|nike|color rojos ,altos|37|Hombre|Adulto|Deportivo|150.0|4
+007|adidas|blanco perla|31.0|Mujer|Infantil|Deportivo|90.0|5

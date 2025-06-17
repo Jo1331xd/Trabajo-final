@@ -1,0 +1,1 @@
+# Archivo de ventas - CódigoZapato|NombreZapato|CantidadVendida|PrecioUnitario|Total|Fecha
