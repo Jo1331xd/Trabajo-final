@@ -1,4 +1,4 @@
-import json
+import pickle
 import os
 from models.classes import Inventario, HistorialVenta
 
@@ -9,74 +9,56 @@ class InventarioDao:
         self.ultimo_id_zapato = 0
         self.ultimo_id_venta = 0
         
-        # Crear carpeta data si no existe
-        self.data_dir = os.path.join(os.path.dirname(__file__), "..", "data")
-        if not os.path.exists(self.data_dir):
-            os.makedirs(self.data_dir)
-        
-        self.inventario_file = os.path.join(self.data_dir, "inventario.json")
-        self.ventas_file = os.path.join(self.data_dir, "historial_ventas.json")
-        self.contadores_file = os.path.join(self.data_dir, "contadores.json")
+        self.inventario_file = os.path.join(os.path.dirname(__file__), "..", "inventario.bin")
+        self.ventas_file = os.path.join(os.path.dirname(__file__), "..", "historial_ventas.bin")
+        self.contadores_file = os.path.join(os.path.dirname(__file__), "..", "contadores.bin")
         
         self.cargar_datos()
     
     def cargar_datos(self):
         try:
-            # Cargar inventario
             if os.path.exists(self.inventario_file):
-                with open(self.inventario_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.productos = [Inventario.from_dict(item) for item in data]
+                with open(self.inventario_file, "rb") as f:
+                    self.productos = pickle.load(f)
             
-            # Cargar historial de ventas
             if os.path.exists(self.ventas_file):
-                with open(self.ventas_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.historial_ventas = [HistorialVenta.from_dict(item) for item in data]
+                with open(self.ventas_file, "rb") as f:
+                    self.historial_ventas = pickle.load(f)
             
-            # Cargar contadores
             if os.path.exists(self.contadores_file):
-                with open(self.contadores_file, 'r', encoding='utf-8') as f:
-                    contadores = json.load(f)
-                    self.ultimo_id_zapato = contadores.get('ultimo_id_zapato', 0)
-                    self.ultimo_id_venta = contadores.get('ultimo_id_venta', 0)
+                with open(self.contadores_file, "rb") as f:
+                    contadores = pickle.load(f)
+                    self.ultimo_id_zapato = contadores.get("ultimo_id_zapato", 0)
+                    self.ultimo_id_venta = contadores.get("ultimo_id_venta", 0)
         except:
             pass
     
     def generar_id_zapato(self):
-        """Genera un nuevo ID de zapato en formato ZAP-00001"""
         self.ultimo_id_zapato += 1
         return f"ZAP-{self.ultimo_id_zapato:05d}"
     
     def generar_id_venta(self):
-        """Genera un nuevo ID de venta en formato VEN-00001"""
         self.ultimo_id_venta += 1
         return f"VEN-{self.ultimo_id_venta:05d}"
     
     def guardar_datos(self):
         try:
-            # Guardar inventario
-            with open(self.inventario_file, 'w', encoding='utf-8') as f:
-                data = [producto.to_dict() for producto in self.productos]
-                json.dump(data, f, indent=2, ensure_ascii=False)
+            with open(self.inventario_file, "wb") as f:
+                pickle.dump(self.productos, f)
             
-            # Guardar historial de ventas
-            with open(self.ventas_file, 'w', encoding='utf-8') as f:
-                data = [venta.to_dict() for venta in self.historial_ventas]
-                json.dump(data, f, indent=2, ensure_ascii=False)
+            with open(self.ventas_file, "wb") as f:
+                pickle.dump(self.historial_ventas, f)
             
-            # Guardar contadores
-            with open(self.contadores_file, 'w', encoding='utf-8') as f:
+            with open(self.contadores_file, "wb") as f:
                 contadores = {
-                    'ultimo_id_zapato': self.ultimo_id_zapato,
-                    'ultimo_id_venta': self.ultimo_id_venta
+                    "ultimo_id_zapato": self.ultimo_id_zapato,
+                    "ultimo_id_venta": self.ultimo_id_venta
                 }
-                json.dump(contadores, f, indent=2)
+                pickle.dump(contadores, f)
         except:
             pass
     
     def add(self, producto):
-        # Asignar ID si no lo tiene
         if not producto.id_zapato:
             producto.id_zapato = self.generar_id_zapato()
         self.productos.append(producto)

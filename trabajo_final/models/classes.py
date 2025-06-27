@@ -15,27 +15,27 @@ class Inventario:
     
     def to_dict(self):
         return {
-            'id_zapato': self.id_zapato,
-            'nombre': self.nombre,
-            'precio': self.precio,
-            'stock': self.stock,
-            'talla': self.talla,
-            'genero': self.genero,
-            'edad': self.edad,
-            'estilo': self.estilo,
-            'vendidos': self.vendidos,
-            'fecha_registro': self.fecha_registro
+            "id_zapato": self.id_zapato,
+            "nombre": self.nombre,
+            "precio": self.precio,
+            "stock": self.stock,
+            "talla": self.talla,
+            "genero": self.genero,
+            "edad": self.edad,
+            "estilo": self.estilo,
+            "vendidos": self.vendidos,
+            "fecha_registro": self.fecha_registro
         }
     
     @classmethod
     def from_dict(cls, data):
         obj = cls(
-            data['nombre'], data['precio'], data['stock'], 
-            data['talla'], data['genero'], data['edad'], 
-            data['estilo'], data['id_zapato']
+            data["nombre"], data["precio"], data["stock"], 
+            data["talla"], data["genero"], data["edad"], 
+            data["estilo"], data["id_zapato"]
         )
-        obj.vendidos = data.get('vendidos', 0)
-        obj.fecha_registro = data.get('fecha_registro', time.strftime("%Y-%m-%d %H:%M:%S"))
+        obj.vendidos = data.get("vendidos", 0)
+        obj.fecha_registro = data.get("fecha_registro", time.strftime("%Y-%m-%d %H:%M:%S"))
         return obj
 
     def __str__(self):
@@ -56,7 +56,7 @@ class Inventario:
 
 class HistorialVenta:
     def __init__(self, id_zapato, nombre_zapato, cantidad, precio_unitario, id_venta=None):
-        self.id_venta = id_venta  # Se asignará desde el DAO
+        self.id_venta = id_venta
         self.id_zapato = id_zapato
         self.nombre_zapato = nombre_zapato
         self.cantidad = cantidad
@@ -66,22 +66,22 @@ class HistorialVenta:
     
     def to_dict(self):
         return {
-            'id_venta': self.id_venta,
-            'id_zapato': self.id_zapato,
-            'nombre_zapato': self.nombre_zapato,
-            'cantidad': self.cantidad,
-            'precio_unitario': self.precio_unitario,
-            'total_venta': self.total_venta,
-            'fecha_venta': self.fecha_venta
+            "id_venta": self.id_venta,
+            "id_zapato": self.id_zapato,
+            "nombre_zapato": self.nombre_zapato,
+            "cantidad": self.cantidad,
+            "precio_unitario": self.precio_unitario,
+            "total_venta": self.total_venta,
+            "fecha_venta": self.fecha_venta
         }
     
     @classmethod
     def from_dict(cls, data):
         obj = cls(
-            data['id_zapato'], data['nombre_zapato'], 
-            data['cantidad'], data['precio_unitario'], 
-            data.get('id_venta')
+            data["id_zapato"], data["nombre_zapato"], 
+            data["cantidad"], data["precio_unitario"], 
+            data.get("id_venta")
         )
-        obj.total_venta = data.get('total_venta', obj.total_venta)
-        obj.fecha_venta = data.get('fecha_venta', obj.fecha_venta)
+        obj.total_venta = data.get("total_venta", obj.total_venta)
+        obj.fecha_venta = data.get("fecha_venta", obj.fecha_venta)
         return obj
