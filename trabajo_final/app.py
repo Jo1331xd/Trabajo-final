@@ -1,3 +1,3 @@
 import main.menu as me
 
-me.menu()
+me.iniciar_programa()
